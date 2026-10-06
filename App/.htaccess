@@ -1,0 +1,12 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # 1. Redirect direct requests for file.php to /file (301 Permanent Redirect)
+    RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /([^/]+/)*([^.]+)\.php\ HTTP/
+    RewriteRule ^((?:[^/]+/)*)([^.]+)\.php$ /$1$2 [R=301,L]
+
+    # 2. Internally map extensionless URLs to the .php file if it exists
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME}\.php -f
+    RewriteRule ^(.*?)/?$ $1.php [L]
+</IfModule>
